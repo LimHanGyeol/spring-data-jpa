@@ -1,6 +1,7 @@
-package com.tommy.datajpa;
+package com.tommy.datajpa.runner;
 
-import org.hibernate.Session;
+import com.tommy.datajpa.comment.Comment;
+import com.tommy.datajpa.post.Post;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

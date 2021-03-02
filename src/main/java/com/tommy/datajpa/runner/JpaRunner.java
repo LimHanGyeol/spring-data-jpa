@@ -1,5 +1,8 @@
-package com.tommy.datajpa.account;
+package com.tommy.datajpa.runner;
 
+import com.tommy.datajpa.account.Account;
+import com.tommy.datajpa.account.Address;
+import com.tommy.datajpa.study.Study;
 import org.hibernate.Session;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,12 +1,11 @@
-package com.tommy.datajpa;
+package com.tommy.datajpa.comment;
 
+import com.tommy.datajpa.post.Post;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Spring Data JPA
@@ -20,36 +19,27 @@ import java.util.Set;
  * Fetch 는 연관 관계에 있는 Entity 의 데이터를 어떻게 가져올지에 대한 설정이다.
  * Entity 를 가져올 때 연관 관계에 있는 Entity 도 지금 가져올 것이냐 ? (Eager)
  * Entity 를 가져올 때 연관 관계에 있는 Entity 를 나중에 가져올 것이냐 ? (Lazy)
- * OnToMany 의 기본값은 Lazy 이다.
+ * ManyToOne 의 기본값은 Eager 이다.
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Post {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private String comment;
 
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    private Set<Comment> comments;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Post post;
 
-    public Post(String title) {
-        this.title = title;
-        this.comments = new HashSet<>();
+    public Comment(String comment) {
+        this.comment = comment;
     }
 
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-        comment.dependentOnPost(this);
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "title='" + title + '\'' +
-                '}';
+    public void dependentOnPost(Post post) {
+        this.post = post;
     }
 }

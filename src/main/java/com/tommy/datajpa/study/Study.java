@@ -1,5 +1,6 @@
-package com.tommy.datajpa.account;
+package com.tommy.datajpa.study;
 
+import com.tommy.datajpa.account.Account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
