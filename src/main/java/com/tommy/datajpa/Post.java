@@ -45,4 +45,11 @@ public class Post {
         this.comments.add(comment);
         comment.dependentOnPost(this);
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }
