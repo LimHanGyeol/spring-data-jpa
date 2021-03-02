@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Spring Data Common
- * 인터페이스 정의하기
+ * 인터페이스 정의하기, Null 처리
  */
 @DataJpaTest
 class CommentRepositoryTest {
@@ -46,5 +46,26 @@ class CommentRepositoryTest {
         assertThat(comments).hasSize(1);
         assertThat(comments).contains(savedComment);
         assertThat(count).isEqualTo(1);
+    }
+
+    @Test
+    void findById() {
+        // given
+        Comment comment = new Comment("Find Comment");
+        assertThat(comment.getId()).isNull();
+        Comment savedComment = commentRepository.save(comment);
+
+        // when
+        Comment findComment = commentRepository.findById(savedComment.getId())
+                            .orElseThrow(IllegalArgumentException::new);
+
+        // then
+        assertThat(findComment.getId()).isEqualTo(savedComment.getId());
+    }
+
+    @Test
+    void invalidFindAll() {
+        List<Comment> comments = commentRepository.findAll();
+        assertThat(comments).isEmpty();
     }
 }
