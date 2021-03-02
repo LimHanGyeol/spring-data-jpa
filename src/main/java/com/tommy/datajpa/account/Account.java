@@ -8,6 +8,12 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Spring Data JPA
+ * Entity Type Mapping
+ * Composite Type 을 n 개로 사용할 경우가 있다.
+ * 이런 경우 AttributeOverrides({ AttributeOverride }) 를 사용하여 이름을 재정의 해준다.
+ */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -31,11 +37,17 @@ public class Account {
     @CreatedDate
     private LocalDateTime createAt;
 
+    @Embedded // Composite 한 타입을 Field 로 사용할 경우
+    @AttributeOverrides({
+            @AttributeOverride(name = "street", column = @Column(name = "home_street"))
+    })
+   private Address homeAddress;
 
-    public Account(String username, String password) {
+    public Account(String username, String password, Address address) {
         this.username = username;
         this.password = password;
         this.createAt = LocalDateTime.now();
+        this.homeAddress = address;
     }
 
 }
