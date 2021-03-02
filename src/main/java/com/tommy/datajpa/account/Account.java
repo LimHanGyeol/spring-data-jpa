@@ -7,12 +7,19 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Spring Data JPA
  * Entity Type Mapping
  * Composite Type 을 n 개로 사용할 경우가 있다.
  * 이런 경우 AttributeOverrides({ AttributeOverride }) 를 사용하여 이름을 재정의 해준다.
+ *
+ * Set<Study> studies 를 단방향 관계 OneToMany 로 맵핑 했다.
+ * 단방향일 경우 기본 설정은 관계 테이블을 만들어 id 를 관리한다.
+ * 양방향으로 만들경우 주인이 아닌 Account 에서 mappedBy 를 정의해야 한다.
+ * mappedBy = "owner" 은 Study 에서 정의한 Account 필드의 이름이다.
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -43,11 +50,26 @@ public class Account {
     })
    private Address homeAddress;
 
+    // 관계 테이블이 생성된다.
+    @OneToMany(mappedBy = "owner")
+    private Set<Study> studies;
+
     public Account(String username, String password, Address address) {
         this.username = username;
         this.password = password;
         this.createAt = LocalDateTime.now();
         this.homeAddress = address;
+        this.studies = new HashSet<>();
+    }
+
+    public void addStudy(Study study) {
+        this.studies.add(study);
+        study.addOwner(this);
+    }
+
+    public void removeStudy(Study study) {
+        this.studies.remove(study);
+        study.removeOwner();
     }
 
 }
