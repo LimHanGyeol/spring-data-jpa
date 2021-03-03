@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Post {
+public class Post extends AbstractAggregateRoot<Post> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +54,11 @@ public class Post {
     public void addComment(Comment comment) {
         this.comments.add(comment);
         comment.dependentOnPost(this);
+    }
+
+    public Post publish() {
+        this.registerEvent(new PostPublishedEvent(this));
+        return this;
     }
 
     @Override

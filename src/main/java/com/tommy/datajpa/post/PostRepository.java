@@ -14,4 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostCustomRep
 
     long countByTitleContains(String title);
 
+    boolean existsByTitle(String title);
+
 }
