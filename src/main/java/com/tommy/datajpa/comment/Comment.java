@@ -35,8 +35,15 @@ public class Comment {
     @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
 
+    private int likeCount;
+
     public Comment(String comment) {
         this.comment = comment;
+        this.likeCount = 0;
+    }
+
+    public void addLikeCount(int likeCount) {
+        this.likeCount += likeCount;
     }
 
     public void dependentOnPost(Post post) {
