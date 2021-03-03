@@ -90,4 +90,18 @@ class PostRepositoryTest {
         // then
         assertThat(result).isEqualTo(1);
     }
+
+    @Test
+    void customMyPost() {
+        postRepository.findMyPost();
+    }
+
+    @Test
+    void delete() {
+        Post post = new Post("spring data jpa");
+        postRepository.save(post);
+
+        postRepository.delete(post);
+        postRepository.flush();
+    }
 }

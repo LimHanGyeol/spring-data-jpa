@@ -4,8 +4,10 @@ import com.tommy.datajpa.comment.Comment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +35,12 @@ public class Post {
     private Long id;
 
     private String title;
+
+    @Lob
+    private String content;
+
+    @CreatedDate
+    private LocalDate createAt;
 
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private Set<Comment> comments;
