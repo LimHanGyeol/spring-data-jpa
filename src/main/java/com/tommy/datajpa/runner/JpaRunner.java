@@ -19,6 +19,10 @@ import javax.persistence.PersistenceContext;
  * 양방향 매핑에서 관계 설정은 주인 엔티티가 해야 한다.
  * Account 가 아닌 Study 에서 관계 설정을 해야 ForeignKey 가 제대로 설정이 된다.
  * Account 에 Set<Study> studies 를 만들고 주입하면 관계가 맺어지지 않는다.
+ *
+ * Session 이 n 개의 Runner 에서 사용되면
+ * UniqueKey 중복으로 에러가 생긴다.
+ * 그래서 다수의 코드를 주석 처리 했다.
  */
 @Component
 public class JpaRunner implements ApplicationRunner {
@@ -38,23 +42,23 @@ public class JpaRunner implements ApplicationRunner {
         Study study = new Study("Spring Data JPA");
         account.addStudy(study);
 
-        Session session = entityManager.unwrap(Session.class); // Hibernate 의 핵심적인 API = Session
-        session.save(account);
-        session.save(study);
+        // Session session = entityManager.unwrap(Session.class); // Hibernate 의 핵심적인 API = Session
+        // session.save(account);
+        // session.save(study);
 
         // 1차 캐시
-        Account hangyeol = session.load(Account.class, account.getId());
+        // Account hangyeol = session.load(Account.class, account.getId());
         // 객체의 변경상태를 계속해서 감지하는 Dirty Checking.
         // 45 라인만 호출될 경우 update 쿼리를 호출하지 않았는데 호출이 된다.
-        hangyeol.updateUsername("tommy");
+        // hangyeol.updateUsername("tommy");
 
         // 객체 상태의 변화를 DB에 최대한 늦게. 가장 필요한 시점에 적용하는 Write Behind
         // 객체의 상태가 처음과 달라지지 않은 것을 알고, update 를 하지 않는다.
-        hangyeol.updateUsername("dlagksruf");
-        hangyeol.updateUsername("hangyeol");
+        // hangyeol.updateUsername("dlagksruf");
+        // hangyeol.updateUsername("hangyeol");
 
         System.out.println("=====================");
-        System.out.println(hangyeol.getUsername());
+        // System.out.println(hangyeol.getUsername());
         // 트랜잭션이 끝나서 밖에서 사용이 될 때 Detached 상태가 된다.
         // 다시 Persistent 상태로 만들려면 ReDetached 상태로 만들면 된다.
         // Persistent 상태의 객체를 session.delete() 하면 객체의 상태는 Removed 가 된다.
