@@ -5,9 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Sort;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,8 +40,41 @@ class PostRepositoryTest {
         assertThat(posts).hasSize(1);
     }
 
-    private void savePost() {
+    @Test
+    void updateTitle() {
+        // given
+        Post savedPost = savePost();
+
+        // when
+        String hibernate = "hibernate";
+        int update = postRepository.updateTitle(hibernate, savedPost.getId());
+
+        // then
+        assertThat(update).isEqualTo(1);
+
+        // when
+        Optional<Post> byId = postRepository.findById(savedPost.getId());
+
+        // then
+        Post post = byId.get();
+        assertThat(post.getTitle()).isEqualTo(hibernate);
+    }
+
+    @Test
+    void updateTitleByPost() {
+        // given
+        Post savedPost = savePost();
+
+        // then
+        savedPost.updateTitle("hibernate");
+
+        // then
+        List<Post> posts = postRepository.findAll();
+        assertThat(posts.get(0).getTitle()).isEqualTo("hibernate");
+    }
+
+    private Post savePost() {
         Post post = new Post("Spring Data JPA");
-        postRepository.save(post);
+        return postRepository.save(post);
     }
 }

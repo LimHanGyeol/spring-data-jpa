@@ -31,4 +31,8 @@ public class Post {
         this.title = title;
         this.createdAt = LocalDate.now();
     }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
 }
