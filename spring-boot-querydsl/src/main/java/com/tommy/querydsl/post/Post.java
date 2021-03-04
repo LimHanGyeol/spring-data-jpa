@@ -22,10 +22,10 @@ public class Post {
     private String title;
 
     @CreatedDate
-    private LocalDate createAt;
+    private LocalDate createdAt;
 
     public Post(String title) {
         this.title = title;
-        this.createAt = LocalDate.now();
+        this.createdAt = LocalDate.now();
     }
 }

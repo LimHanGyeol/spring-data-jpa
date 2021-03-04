@@ -35,4 +35,19 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Spring Data JPA 60%"));
     }
+
+    @Test
+    void getPosts() throws Exception {
+        Post post = new Post("Spring Data JPA 60%");
+        postRepository.save(post);
+
+        mockMvc.perform(get("/posts")
+                .param("page", "0")
+                .param("size", "10")
+                .param("sort", "createdAt,desc")
+                .param("sort", "title"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].title").value("Spring Data JPA 60%"));
+    }
 }
