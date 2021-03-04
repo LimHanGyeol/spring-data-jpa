@@ -28,11 +28,29 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
+    private int up;
+
+    private int down;
+
+    private boolean best;
+
     public Comment(String comment) {
         this.comment = comment;
     }
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public void setUp(int up) {
+        this.up = up;
+    }
+
+    public void setDown(int down) {
+        this.down = down;
+    }
+
+    public CommentDto toCommentDto() {
+        return new CommentDto(comment, up, down);
     }
 }

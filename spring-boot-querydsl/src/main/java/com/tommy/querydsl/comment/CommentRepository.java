@@ -3,6 +3,7 @@ package com.tommy.querydsl.comment;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,5 +22,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
      * attributePath = {"post"} 로 정의할 수도 있다. 이게 더 깔끔할 것이다.
      */
     @EntityGraph(value = "Comment.post")
-    Optional<Comment> loadById(Long id);
+    Optional<Comment> getById(Long id);
+
+    // or CommentDto
+    List<CommentDto> findByPostId(Long id);
+
 }
