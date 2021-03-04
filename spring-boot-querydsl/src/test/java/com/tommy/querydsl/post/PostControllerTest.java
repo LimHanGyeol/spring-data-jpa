@@ -38,8 +38,7 @@ class PostControllerTest {
 
     @Test
     void getPosts() throws Exception {
-        Post post = new Post("Spring Data JPA 60%");
-        postRepository.save(post);
+        createPosts();
 
         mockMvc.perform(get("/posts")
                 .param("page", "0")
@@ -49,5 +48,14 @@ class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].title").value("Spring Data JPA 60%"));
+    }
+
+    private void createPosts() {
+        int postLimit = 100;
+        while (postLimit > 0) {
+            Post post = new Post("Spring Data JPA 60%");
+            postRepository.save(post);
+            postLimit--;
+        }
     }
 }
