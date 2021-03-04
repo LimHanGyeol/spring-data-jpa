@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
+/**
+ * Spring Data JPA
+ * JPA 쿼리 메서드 (네임드 쿼리)
+ * 하지만 Domain 객체에 이렇게 작성하는 것보단 Repository 에 Query 어노테이션을 주고 작성하는게 더 낫다.
+ */
+// @NamedQuery(name = "Post.findByTitle", query = "SELECT p FROM Post AS p WHERE p.title = ?1")
 @NoArgsConstructor
 @Getter
 @Entity
