@@ -3,6 +3,7 @@ package com.tommy.querydsl.post;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,7 +35,7 @@ class PostRepositoryTest {
         savePost();
 
         // when
-        List<Post> posts = postRepository.findByTitle("Spring Data JPA");
+        List<Post> posts = postRepository.findByTitle("Spring Data JPA", Sort.by("title"));
 
         // then
         assertThat(posts).hasSize(1);
