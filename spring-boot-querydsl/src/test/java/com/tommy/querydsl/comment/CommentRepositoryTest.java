@@ -40,13 +40,14 @@ class CommentRepositoryTest {
         comment.setDown(1);
         commentRepository.save(comment);
 
-        CommentDto commentDtos = commentRepository.getById(1l).orElseThrow().toCommentDto();
-        System.out.println(commentDtos.getComment());
-//        List<CommentDto> byPostId = commentRepository.findByPostId(savedPost.getId());
-//        byPostId.forEach(c -> {
-//            System.out.println("==============");
-//            System.out.println(c.getVotes());
-//        });
+//        CommentDto commentDtos = commentRepository.getById(1l).orElseThrow().toCommentDto();
+//        System.out.println(commentDtos.getComment());
+
+        List<CommentDto> byPostId = commentRepository.findByPostId(savedPost.getId());
+        byPostId.forEach(c -> {
+            System.out.println("==============");
+            System.out.println(c.getVotes());
+        });
     }
 
     private Post createPost() {

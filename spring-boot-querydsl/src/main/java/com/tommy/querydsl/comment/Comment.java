@@ -1,11 +1,18 @@
 package com.tommy.querydsl.comment;
 
+import com.tommy.querydsl.account.Account;
 import com.tommy.querydsl.post.Post;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 /**
  * Spring Data JPA
@@ -17,6 +24,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -33,6 +41,20 @@ public class Comment {
     private int down;
 
     private boolean best;
+
+    @CreatedDate
+    private LocalDate createdAt;
+
+    @CreatedBy
+    @ManyToOne
+    private Account createdBy;
+
+    @LastModifiedDate
+    private LocalDate updatedAt;
+
+    @LastModifiedBy
+    @ManyToOne
+    private Account updatedBy;
 
     public Comment(String comment) {
         this.comment = comment;
